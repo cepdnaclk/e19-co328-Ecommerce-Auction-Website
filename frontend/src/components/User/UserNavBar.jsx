@@ -35,6 +35,11 @@ export default function NavBar() {
 	handleClose();
    };
 
+  const handleLogoClick = () => {
+    navigate("/"); // Navigate to the profile page
+    handleClose();
+  };
+
   useEffect(() => {
     const initWebSocket = async () => {
 		try {
@@ -122,6 +127,8 @@ export default function NavBar() {
         fontFamily="monospace"
         fontSize="30"
         fontWeight="bold"
+        onClick={handleLogoClick}
+        sx={{ cursor: 'pointer' }}
       >
         BIDCIRCLE
       </Typography>
@@ -173,7 +180,7 @@ export default function NavBar() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleProfileClick}>
           <Avatar /> Profile
         </MenuItem>
         <MenuItem onClick={handleClose}>
