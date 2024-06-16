@@ -13,7 +13,7 @@ import OneListing from "./components/User/OneListing";
 import Home from "./components/User/Home";
 import Category from "./components/User/Category";
 import Profile from "./services/Profile";
-
+import ResetPasswordForm from "./components/ResetPasswordForm";
 const lightTheme = createTheme({
 	palette: {
 		primary: blue,
@@ -30,6 +30,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/signup" element={<Signup props="signup" />} />
 					<Route path="/login" element={<Signup props="login" />} />
+					<Route path="/changePassword" element={<ResetPasswordForm />} />
 					<Route path="/listings" element={<Listings />} />
 					<Route path="/category" element={<Category />} />
 					<Route element={<RequireAuth allowedRoles="ROLE_USER" />}>
