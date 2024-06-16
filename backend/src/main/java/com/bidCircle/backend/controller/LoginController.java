@@ -45,9 +45,13 @@ public class LoginController {
             if (roles.equals("ROLE_SELLER")){
                 Auctioneer auctioneer = auctioneerRepository.findByUserName(authRequest.getUserName());
                 tokenModel.setCompanyName(auctioneer.getCompanyName());
-            }else{
+            } else {
                 tokenModel.setCompanyName("");
             }
+            
+            // Log successful login and token
+                System.out.println("Login successful for user: " + authRequest.getUserName());
+                System.out.println("Generated Token: " + acessToken);
             return tokenModel;
         } else {
             tokenModel.setAccessToken("");

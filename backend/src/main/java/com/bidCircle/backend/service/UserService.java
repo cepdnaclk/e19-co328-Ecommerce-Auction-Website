@@ -34,4 +34,6 @@ public interface UserService {
     Optional<UserInfo> findUserByUserName(String userName);
 
     void registerBidder(UserModel userModel);
+
+    
 }
