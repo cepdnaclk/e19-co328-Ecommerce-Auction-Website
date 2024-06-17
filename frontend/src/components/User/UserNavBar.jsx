@@ -125,11 +125,12 @@ export default function NavBar() {
         justifyContent: 'space-between',
         gap: '30px',
         backgroundColor: '#E6F0FF',
-        width: '97vw',
+        width: '98vw',
         position: 'fixed',
         top: '0',
         height: '60px',
-        paddingLeft: '5px',
+        paddingLeft: '10px',
+        paddingRight: '10px'
       }}
     >
       <Typography
