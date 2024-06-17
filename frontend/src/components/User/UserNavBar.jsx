@@ -159,8 +159,8 @@ export default function NavBar() {
           </>
         ) : (
           <>
-            <Button style={{ color: 'white' }} sx={{ backgroundColor: '#3f51b5' }} onClick={handleLogIn}>LOGIN</Button>
-            <Button style={{ color: 'white' }} sx={{ backgroundColor: '#3f51b5' }} onClick={handleSignUp}>SIGN UP</Button>
+            <Button style={{ color: 'white' }} color="secondary" variant="contained" onClick={handleLogIn}>LOGIN</Button>
+            <Button style={{ color: 'white' }} color="primary" variant="contained" onClick={handleSignUp}>SIGN UP</Button>
           </>
         )}
       </Box>
