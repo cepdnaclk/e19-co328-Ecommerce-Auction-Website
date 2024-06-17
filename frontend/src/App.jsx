@@ -14,6 +14,7 @@ import Home from "./components/User/Home";
 import Category from "./components/User/Category";
 import Profile from "./services/Profile";
 import ResetPasswordForm from "./components/ResetPasswordForm";
+
 const lightTheme = createTheme({
 	palette: {
 		primary: blue,

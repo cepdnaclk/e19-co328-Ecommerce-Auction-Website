@@ -38,7 +38,7 @@ public class SecurityConfig {
                 "/resetPassword", "/savePassword", "/changePassword", "/login", "/hello",
                 "admin/addCategory",
                         "seller/upload", "seller/item", "seller/addItem"
-                ,"admin/addSeller", "seller/hi", "listing/item", "listing/all", "user/bid", "user/watclist", "user/profile").permitAll()
+                ,"admin/addSeller", "seller/hi", "listing/item", "listing/all", "user/bid", "user/watclist", "user/profile","ws/notifications").permitAll()
                 .and()
             .authorizeHttpRequests().requestMatchers("seller/hi", "seller/addItem").authenticated()//hasRole("DOCTOR")
 
