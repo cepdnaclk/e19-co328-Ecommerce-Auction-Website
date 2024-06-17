@@ -32,12 +32,17 @@ const SignupForm = () => {
     .then((response)=>{
         console.log(response);
         setSuccessMessage("Verification link has been sent to your email")
+        navigate('/login');
     }).catch((error)=>{
         setErrorMessage("Invalid username or email address")
         console.log(error);
     })
     
       resetForm();
+  };
+
+  const handleLogIn = () => {
+    navigate('/login');
   };
   
   return (
@@ -121,10 +126,28 @@ const SignupForm = () => {
               
               
             </Box><br/>
-            <Box display="grid" color="primary" variant="contained">
+            {/* <Box display="grid" color="primary" variant="contained">
               <Button type="submit" color='secondary' variant='contained' >
             
                 SignUp
+              </Button>
+            </Box> */}
+            <Box mt={3} display="flex" flexDirection="column" alignItems="center" >
+              <Button type="submit" color="secondary" variant="contained" fullWidth="true">
+                SIGN UP
+              </Button>
+              <Typography mt={2} mb={2} variant="body1">
+                Or
+              </Typography>
+              <Button
+                component={Link}
+                to="/login"
+                color="secondary"
+                variant="contained"
+                fullWidth="true"
+                onClick={handleLogIn}
+                      >
+                LOGIN
               </Button>
             </Box>
           </form>
