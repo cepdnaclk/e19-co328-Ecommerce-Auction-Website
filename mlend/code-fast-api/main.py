@@ -1,3 +1,4 @@
+# replace <password> in the uri with actual one
 # to start the app run "uvicorn main:app --reload"
 
 from fastapi import FastAPI, HTTPException
