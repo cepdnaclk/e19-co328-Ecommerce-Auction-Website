@@ -1,3 +1,5 @@
+# to start the app run "uvicorn main:app --reload"
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
@@ -10,7 +12,7 @@ from bson import ObjectId
 app = FastAPI()
 
 # Connection URI and MongoDB collection names
-uri = "mongodb+srv://<username>:<password>@cluster45204.sxzufw7.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://e19163:<password>@cluster45204.sxzufw7.mongodb.net/?retryWrites=true&w=majority"
 db_name = "bid_circle"
 ratings_collection_name = "ratings"
 recommendations_collection_name = "recommendations"
@@ -28,6 +30,12 @@ class RecommendationItem(BaseModel):
 class UserRecommendations(BaseModel):
     user_id: str
     recommendations: List[RecommendationItem]
+
+class SaveRatingRequest(BaseModel):
+    user_id: str
+    auction_id: str
+    rating: float  # Assuming rating is a float or an integer
+
 
 # Function to convert BSON ObjectId to string
 def convert_obj_id(document):
@@ -68,14 +76,35 @@ async def get_recommendations(user_id: str):
 
 # Function to save a new rating to MongoDB
 @app.post("/ratings/save", status_code=201)
-async def save_rating(user_id: str, auction_id: str, rating: float):
+async def save_rating(request_data: SaveRatingRequest):
     try:
+        user_id = request_data.user_id
+        auction_id = request_data.auction_id
+        rating = request_data.rating
+
         db_connection_ratings.connect()
         db_connection_ratings.save_rating(user_id, auction_id, rating)
         db_connection_ratings.close()
+
         return {"message": "Rating successfully saved."}
+
     except Exception as e:
+        print(f"Error in save_rating: {str(e)}")
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+    
+
+# Function to delete rating by user_id and auction_id
+@app.delete("/ratings/delete/{user_id}/{auction_id}", status_code=204)
+async def delete_rating(user_id: str, auction_id: str):
+    try:
+        db_connection_ratings.connect()
+        db_connection_ratings.delete_rating(user_id, auction_id)
+        db_connection_ratings.close()
+
+        return {"message": f"Rating for user {user_id} and auction {auction_id} deleted successfully."}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # Function to retrain the model and save new recommendations
@@ -113,12 +142,14 @@ async def retrain_and_save_recommendations():
         db_connection_recommendations.close()
 
         return {"message": "Recommendations retrained and saved."}
+
     except Exception as e:
+        # Log the exception to FastAPI console
+        print(f"Error in retrain_and_save_recommendations: {str(e)}")
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
 
 # Main entry point to run the FastAPI application
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
+    uvicorn.run(app, host="0.0.0.0", port=8000, debug=True)
