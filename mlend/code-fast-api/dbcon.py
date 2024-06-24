@@ -1,4 +1,4 @@
-from pymongo.mongo_client import MongoClient
+from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
 class DatabaseConnection:
@@ -46,10 +46,18 @@ class DatabaseConnection:
         except Exception as e:
             print(f"An error occurred while saving data: {e}")
     
-    def close(self):
-        if self.client:
-            self.client.close()
-            print("Closed the MongoDB connection.")
+    def delete_rating(self, user_id, auction_id):
+        try:
+            if self.collection is not None:
+                result = self.collection.delete_one({"user_id": user_id, "auction_id": auction_id})
+                if result.deleted_count == 1:
+                    print(f"Rating for user {user_id} and auction {auction_id} deleted successfully.")
+                else:
+                    print(f"No rating found for user {user_id} and auction {auction_id}.")
+            else:
+                print("No collection selected.")
+        except Exception as e:
+            print(f"An error occurred while deleting data: {e}")
 
     def save_recommendations(self, recommendations):
         try:
@@ -77,8 +85,14 @@ class DatabaseConnection:
         try:
             if self.collection is not None:
                 self.collection.delete_many({})
-                print(f"Collection {self.collection_name} cleared.")
+                print(f"Collection {self.ratings_collection_name} cleared.")
             else:
                 print("No collection selected.")
         except Exception as e:
             print(f"An error occurred while clearing the collection: {e}")
+
+    def close(self):
+        if self.client:
+            self.client.close()
+            print("Closed the MongoDB connection.")
+
