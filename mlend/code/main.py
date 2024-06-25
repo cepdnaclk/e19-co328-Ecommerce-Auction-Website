@@ -1,5 +1,4 @@
 ### replace `<password>` in the uri with actual one
-### to start the app run `uvicorn main:app --reload`
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -15,7 +14,7 @@ from bson import ObjectId
 app = FastAPI()
 
 ### Connection URI and MongoDB collection names
-uri = "mongodb+srv://e19163:12345@cluster45204.sxzufw7.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://e19163:<password>@cluster45204.sxzufw7.mongodb.net/?retryWrites=true&w=majority"
 db_name = "bid_circle"
 ratings_collection_name = "ratings"
 recommendations_collection_name = "recommendations"
