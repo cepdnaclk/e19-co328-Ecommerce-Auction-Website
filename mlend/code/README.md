@@ -8,10 +8,6 @@ from dbcon import DatabaseConnection
 from recommender import RecommenderModel
 ```
 
-### Initialize FastAPI
-
-app = FastAPI()
-
 ### Connection URI and MongoDB collection names
 
 ```
