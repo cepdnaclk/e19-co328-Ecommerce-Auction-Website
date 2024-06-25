@@ -1,17 +1,10 @@
 ### replace `<password>` in the uri with actual one
 
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import List
 import pandas as pd
 from dbcon import DatabaseConnection
 from recommender import RecommenderModel
-from bson import ObjectId
 
 ## Example Usecase
-
-### Initialize FastAPI
-app = FastAPI()
 
 ### Connection URI and MongoDB collection names
 uri = "mongodb+srv://e19163:<password>@cluster45204.sxzufw7.mongodb.net/?retryWrites=true&w=majority"
