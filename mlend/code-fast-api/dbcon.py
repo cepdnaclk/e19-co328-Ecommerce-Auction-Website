@@ -81,7 +81,7 @@ class DatabaseConnection:
             print(f"An error occurred while fetching recommendations: {e}")
             return []
 
-    def clear_collection(self):
+    def clear_recommendations(self):
         try:
             if self.collection is not None:
                 self.collection.delete_many({})

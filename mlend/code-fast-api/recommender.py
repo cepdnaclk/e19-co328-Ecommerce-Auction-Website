@@ -11,7 +11,7 @@ class RecommenderModel:
         self.user_mean = self.utility_matrix.mean(axis=0)
         self.user_removed_mean_rating = (self.utility_matrix - self.user_mean).fillna(0)
 
-    def find_neighbours(self, user_removed_mean_rating, user_id):
+    def __find_neighbours(self, user_removed_mean_rating, user_id):
         n_users = len(user_removed_mean_rating.index)
         # print(n_users)
 
@@ -46,7 +46,7 @@ class RecommenderModel:
         }
     
     # Function to calculate baseline prediction from user and movie
-    def baseline_prediction(self, data, user_id, auction_id):
+    def __baseline_prediction(self, data, user_id, auction_id):
 
         global_mean = data.stack().dropna().mean() # calculate global mean
         user_mean = data.loc[user_id, :].mean() # calculate user mean
@@ -58,10 +58,10 @@ class RecommenderModel:
         return baseline_ui
     
     # Function to predict rating on user_id and auction_id
-    def predict_item_rating(self, user_id, auction_id, data, neighbor_data, max_rating=5, min_rating=1):
+    def __predict_item_rating(self, user_id, auction_id, data, neighbor_data, max_rating=5, min_rating=1):
 
         # calculate baseline (u,i)
-        baseline = self.baseline_prediction(data=data,
+        baseline = self.__baseline_prediction(data=data,
                                     user_id=user_id, auction_id=auction_id)
         # for sum
         sim_rating_total = 0
@@ -77,7 +77,7 @@ class RecommenderModel:
                 continue
 
             # calculate baseline (ji)
-            baseline = self.baseline_prediction(data=data,
+            baseline = self.__baseline_prediction(data=data,
                                         user_id=neighbor_data['closest_neighbours'][i], auction_id=auction_id)
 
             # subtract baseline from rating
@@ -109,10 +109,10 @@ class RecommenderModel:
         return user_item_predicted_rating
     
     # Function to generate recommendation on given user_id
-    def recommend_items(self, data, user_id, recommend_seen=False):
+    def __user_recommendations(self, data, user_id, recommend_seen=False):
 
         # find neighbor
-        neighbor_data = self.find_neighbours(user_removed_mean_rating=self.user_removed_mean_rating, user_id=user_id)
+        neighbor_data = self.__find_neighbours(user_removed_mean_rating=self.user_removed_mean_rating, user_id=user_id)
 
         # create empty dataframe to store prediction result
         prediction_df = pd.DataFrame()
@@ -131,7 +131,7 @@ class RecommenderModel:
         # loop all over movie
         for movie in item_to_predict:
             # predict rating
-            preds = self.predict_item_rating(user_id=user_id, auction_id=movie,
+            preds = self.__predict_item_rating(user_id=user_id, auction_id=movie,
                                         data=data,
                                         neighbor_data=neighbor_data)
 
@@ -149,3 +149,17 @@ class RecommenderModel:
                         .sort_values('predicted_ratings', ascending=False))
 
         return prediction_df
+    
+    def recommend(self):
+        recommendations = []
+        for user_id in self.utility_matrix.index:
+            recommendation = self.__user_recommendations(data=self.data, user_id=user_id, recommend_seen=False)
+            for auction_id in recommendation['auction_id']:
+                self.utility_matrix.loc[user_id, auction_id] = float(recommendation[recommendation['auction_id'] == auction_id]['predicted_ratings'].iloc[0])
+            __user_recommendations = {
+                "user_id": user_id,
+                "recommendations": recommendation.to_dict(orient='records')
+            }
+            recommendations.append(__user_recommendations)
+
+        return recommendations
