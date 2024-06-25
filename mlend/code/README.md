@@ -1,4 +1,4 @@
-## Example Usecase of `RecommenderModel` and `DatabaseConnection` modules
+## Example Usecase of `RecommenderModel` and `DatabaseConnection` modules (from `main.py`)
 
 ### Import necessary modules
 
