@@ -20,6 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -143,5 +146,12 @@ public class SellerController {
     public String hello(){
         return "ff";
     }
+
+    @GetMapping("/profile")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+    
+
 
 }
