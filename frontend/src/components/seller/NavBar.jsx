@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Box,
 	Typography,
@@ -21,6 +21,8 @@ import NotificationComponent from "../NotificationComponent";
 export default function NavBar() {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [anchorE2, setAnchorE2] = React.useState(null);
+	const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+	const [username, setUsername] = useState(""); // Track username
 	const openMenu = Boolean(anchorEl);
 	const openNotify = Boolean(anchorE2);
 	const [fetchNotifications, setFetchNotifications] = useState(() => () => {});
@@ -46,6 +48,20 @@ export default function NavBar() {
 		LoginService.logout();
 		navigate("/");
 	};
+	useEffect(() => {
+		// Mock login status check
+		const checkLoginStatus = async () => {
+			const status = await LoginService.isLoggedIn(); // Replace with actual login status check
+			setIsLoggedIn(status);
+			if (status) {
+				const user = await LoginService.getUserName(); // Replace with actual username retrieval
+				console.log(user);
+				setUsername(user);
+			}
+		};
+
+		checkLoginStatus();
+	});
 
 	return (
 		<Box
@@ -86,7 +102,9 @@ export default function NavBar() {
 				</IconButton>
 				<Tooltip title="Account settings">
 					<IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-						<Avatar sx={{ width: 32, height: 32, color: "#42a5f5" }}>W</Avatar>
+						<Avatar sx={{ width: 32, height: 32, color: "#42a5f5" }}>
+							{username.charAt(0).toUpperCase()}
+						</Avatar>
 					</IconButton>
 				</Tooltip>
 			</Box>

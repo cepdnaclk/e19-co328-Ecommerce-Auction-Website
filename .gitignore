@@ -9,3 +9,4 @@ mlend/code/__pycache__
 .vscode/launch.json
 
 
+backend/src/main/resources/application.properties

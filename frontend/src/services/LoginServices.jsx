@@ -27,8 +27,8 @@ const getUserName = () => {
 };
 
 const isLoggedIn = () => {
-	return !!localStorage.getItem('user');
-  };
+	return !!localStorage.getItem("user");
+};
 
 const axiosInstance = axios.create({
 	baseURL: API_URL,
@@ -57,6 +57,7 @@ const LoginService = {
 	login,
 	logout,
 	isLoggedIn,
+	getUserName,
 	axiosInstance, // Exporting axios instance for general use
 };
 
