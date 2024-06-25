@@ -4,6 +4,7 @@ backend/src/main/resources/application.properties
 backend/src/main/resources/application.properties
 backend/mvnw
 backend/src/main/resources/application.properties
+mlend/code/__pycache__
 *.properties
 .vscode/launch.json
 
