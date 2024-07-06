@@ -101,6 +101,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<finalName>back-app</finalName>
 				</configuration>
 			</plugin>
 		</plugins>
