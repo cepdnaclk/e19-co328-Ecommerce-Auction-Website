@@ -15,8 +15,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        path: backend
+    - name: Sparse Checkout
+      run: |
+        mkdir -p backend
+        git sparse-checkout init --cone
+        git sparse-checkout set backend
     # - name: Copy content
     #   run: mv backend/backend/* ./
     # - name: Set up JDK 17
