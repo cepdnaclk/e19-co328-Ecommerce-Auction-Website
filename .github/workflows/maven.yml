@@ -28,6 +28,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Stop backend
+      run: sudo systemctl stop back
     - name: Build with Maven
       run: mvn -B clean package
+    - name: Stop backend
+      run: sudo systemctl start back
 
