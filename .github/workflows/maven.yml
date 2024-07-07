@@ -11,7 +11,7 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted[backend]
+    runs-on: backend
 
     steps:
     - uses: actions/checkout@v4
